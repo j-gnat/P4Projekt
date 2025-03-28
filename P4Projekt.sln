@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35521.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessGameLogic", "ChessGameLogic\ChessGameLogic.csproj", "{F87ED2CA-0C21-43C4-BB01-053DC111FAF3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessGameUI", "ChessGameUI\ChessGameUI.csproj", "{53E98DF2-1DCD-407C-8BEE-FB6BE29C2485}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C27A66FC-B2C5-49F9-8888-206F58042E55}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{328EACF0-1150-48BD-A881-AE76215DA1F6}"
@@ -16,26 +12,30 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessGameLogic", "src\ChessGameLogic\ChessGameLogic.csproj", "{DD6551A2-D480-48C3-B8A5-F98E71EC6499}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessGameUI", "src\ChessGameUI\ChessGameUI.csproj", "{839D1BC8-61B6-42F0-ADC0-AB43231FDA14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F87ED2CA-0C21-43C4-BB01-053DC111FAF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F87ED2CA-0C21-43C4-BB01-053DC111FAF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F87ED2CA-0C21-43C4-BB01-053DC111FAF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F87ED2CA-0C21-43C4-BB01-053DC111FAF3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{53E98DF2-1DCD-407C-8BEE-FB6BE29C2485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{53E98DF2-1DCD-407C-8BEE-FB6BE29C2485}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53E98DF2-1DCD-407C-8BEE-FB6BE29C2485}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{53E98DF2-1DCD-407C-8BEE-FB6BE29C2485}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD6551A2-D480-48C3-B8A5-F98E71EC6499}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD6551A2-D480-48C3-B8A5-F98E71EC6499}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD6551A2-D480-48C3-B8A5-F98E71EC6499}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD6551A2-D480-48C3-B8A5-F98E71EC6499}.Release|Any CPU.Build.0 = Release|Any CPU
+		{839D1BC8-61B6-42F0-ADC0-AB43231FDA14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{839D1BC8-61B6-42F0-ADC0-AB43231FDA14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{839D1BC8-61B6-42F0-ADC0-AB43231FDA14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{839D1BC8-61B6-42F0-ADC0-AB43231FDA14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{F87ED2CA-0C21-43C4-BB01-053DC111FAF3} = {C27A66FC-B2C5-49F9-8888-206F58042E55}
-		{53E98DF2-1DCD-407C-8BEE-FB6BE29C2485} = {C27A66FC-B2C5-49F9-8888-206F58042E55}
+		{DD6551A2-D480-48C3-B8A5-F98E71EC6499} = {C27A66FC-B2C5-49F9-8888-206F58042E55}
+		{839D1BC8-61B6-42F0-ADC0-AB43231FDA14} = {C27A66FC-B2C5-49F9-8888-206F58042E55}
 	EndGlobalSection
 EndGlobal
