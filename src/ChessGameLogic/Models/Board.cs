@@ -1,12 +1,7 @@
 ﻿namespace ChessGameLogic.Models
 {
-    internal class Board
+    public class Board(Piece[,] boardTab)
     {
-        public int [,] BoardTab { get; private set; }
-
-        public Board()
-        {
-            BoardTab = new int[8, 8];
-        }
+        public Piece [,] BoardTab { get; set; } = boardTab;        
     }
 }
