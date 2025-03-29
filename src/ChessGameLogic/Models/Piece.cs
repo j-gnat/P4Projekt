@@ -3,10 +3,10 @@ using ChessGameLogic.Enums;
 
 namespace ChessGameLogic.Models
 {
-    internal abstract class Piece(PieceColor color, PieceType type, IMoveStrategy moveStrategy)
+    public class Piece(PieceColor color, PieceType type, IMoveStrategy moveStrategy)
     {
-        public PieceColor IsWhite { get; private set; } = color;
-        public PieceType Type { get; private set; } = type;
+        public PieceColor Color { get; internal set; } = color;
+        public PieceType Type { get; set; } = type;
         public IMoveStrategy MoveStrategy { get; set; } = moveStrategy;
     }
 }

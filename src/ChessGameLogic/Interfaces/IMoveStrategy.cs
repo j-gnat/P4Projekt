@@ -1,6 +1,6 @@
 ﻿namespace ChessGameLogic.Interfaces
 {
-    internal interface IMoveStrategy
+    public interface IMoveStrategy
     {
 
     }
