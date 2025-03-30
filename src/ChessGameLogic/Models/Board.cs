@@ -1,4 +1,6 @@
-﻿namespace ChessGameLogic.Models
+﻿using Generic;
+
+namespace ChessGameLogic.Models
 {
     public delegate void Notify();
     public class Board(Piece[,] boardTab)
@@ -19,10 +21,10 @@
             {
                 return false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.ErrorLog($"An unhandled error occurred while moving the piece from ({from.row}, {from.column}) to ({to.row}, {to.column}). {ex}");
                 return false;
-                // TO DO: Log exception
             }
         }
 

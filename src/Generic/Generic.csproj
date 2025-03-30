@@ -7,15 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="plan.txt" />
+    <PackageReference Include="log4net" Version="3.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Utils\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Generic\Generic.csproj" />
+    <None Update="Log4Net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
