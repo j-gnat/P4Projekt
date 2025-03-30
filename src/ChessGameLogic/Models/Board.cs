@@ -6,18 +6,23 @@
         public event Notify? PieceMoved;
         private Piece?[,] BoardTab { get; set; } = boardTab;
 
-        public bool MovePiece((int x, int y) from, (int x, int y) to)
+        public bool MovePiece((int row, int column) from, (int row, int column) to)
         {
+            bool result;
             try
             {
-                BoardTab[to.x, to.y] = BoardTab[from.x, from.y];
-                BoardTab[from.x, from.y] = null;
+                result = BoardTab[from.row, from.column]?.MoveStrategy?.MovePiece(BoardTab, from, to) ?? false;
                 OnPieceMoved();
-                return true;
+                return result;
             }
-            catch (IndexOutOfRangeException)
+            catch (Exception ex) when (ex is IndexOutOfRangeException || ex is NullReferenceException)
             {
                 return false;
+            }
+            catch (Exception)
+            {
+                return false;
+                // TO DO: Log exception
             }
         }
 
