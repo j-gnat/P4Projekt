@@ -6,25 +6,50 @@ namespace ChessGameLogic.Models
     public class Board(Piece[,] boardTab)
     {
         public event Notify? PieceMoved;
-        private Piece?[,] BoardTab { get; set; } = boardTab;
+        public List<Move> Moves { get; set; } = [];
+        public Piece?[,] BoardTab { get; set; } = boardTab;
 
         public bool MovePiece((int row, int column) from, (int row, int column) to)
         {
-            bool result;
+            var move = default(Move);
+            bool result = false;
             try
             {
-                result = BoardTab[from.row, from.column]?.MoveStrategy?.MovePiece(BoardTab, from, to) ?? false;
-                OnPieceMoved();
+                Piece piece = BoardTab[from.row, from.column] ?? throw new NullReferenceException();
+
+                if (piece.MoveStrategy?.IsValidMove(BoardTab, from, to) ?? false)
+                {
+                    List<(Piece? piece, (int row, int column) position)>? takenPieces = [];
+                    if (BoardTab[to.row, to.column] != null)
+                    {
+                        takenPieces.Add((BoardTab[to.row, to.column], to));
+                    }
+                    move = new (from, to, piece, takenPieces);
+                    BoardTab[to.row, to.column] = piece;
+                    BoardTab[from.row, from.column] = null;
+                    OnPieceMoved();
+                    result = true;
+                }
                 return result;
             }
             catch (Exception ex) when (ex is IndexOutOfRangeException || ex is NullReferenceException)
             {
-                return false;
+                result = false;
+                return result;
             }
             catch (Exception ex)
             {
-                Logger.ErrorLog($"An unhandled error occurred while moving the piece from ({from.row}, {from.column}) to ({to.row}, {to.column}). {ex}");
-                return false;
+                result = false;
+                string pieceType = BoardTab[from.row, from.column]?.Type.ToString() ?? "Unknown";
+                Logger.ErrorLog($"An unhandled error occurred while moving the piece \"{pieceType}\" from ({from.row}, {from.column}) to ({to.row}, {to.column}). {ex}");
+                return result;
+            }
+            finally
+            {
+                if (result)
+                {
+                    Moves.Add(move);
+                }
             }
         }
 

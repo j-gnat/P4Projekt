@@ -30,5 +30,25 @@ namespace ChessGameLogic.Services
         {
             return _gameType.Board.MovePiece(from, to);
         }
+
+        public bool ResetGame()
+        {
+            return _gameType.ResetGame();
+        }
+
+        public bool UndoMove()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool SaveGame(string path)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool LoadGame(string path)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
