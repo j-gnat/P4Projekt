@@ -2,14 +2,14 @@
 
 namespace ChessGameLogic.Models
 {
-    public struct Move((int row, int column) from,
-        (int row, int column) to,
+    public struct Move(Coordinate from,
+        Coordinate to,
         Piece movedPiece,
-        List<(Piece? piece, (int row, int column) position)> takenPieces)
+        List<(Piece? piece, Coordinate position)> takenPieces)
     {
-        public (int row, int column) From { get; set; } = from;
-        public (int row, int column) To { get; set; } = to;
+        public Coordinate From { get; set; } = from;
+        public Coordinate To { get; set; } = to;
         public Piece MovedPiece { get; set; } = movedPiece;
-        public List<(Piece? piece, (int row, int column) position)>? TakenPieces { get; set; } = takenPieces;
+        public List<(Piece? piece, Coordinate position)>? TakenPieces { get; set; } = takenPieces;
     }
 }

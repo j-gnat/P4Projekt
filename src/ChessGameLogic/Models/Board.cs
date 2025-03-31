@@ -9,7 +9,7 @@ namespace ChessGameLogic.Models
         public List<Move> Moves { get; set; } = [];
         public Piece?[,] BoardTab { get; set; } = boardTab;
 
-        public bool MovePiece((int row, int column) from, (int row, int column) to)
+        public bool MovePiece(Coordinate from, Coordinate to)
         {
             var move = default(Move);
             bool result = false;
@@ -19,7 +19,7 @@ namespace ChessGameLogic.Models
 
                 if (piece.MoveStrategy?.IsValidMove(BoardTab, from, to) ?? false)
                 {
-                    List<(Piece? piece, (int row, int column) position)>? takenPieces = [];
+                    List<(Piece? piece, Coordinate position)>? takenPieces = [];
                     if (BoardTab[to.row, to.column] != null)
                     {
                         takenPieces.Add((BoardTab[to.row, to.column], to));

@@ -10,12 +10,12 @@ namespace ChessGameLogic.Services.MoveStrategies
 
         private MoveDirection _moveDirection = moveDirection;
 
-        public bool IsValidMove(Piece?[,] board, (int row, int column) from, (int row, int column) to)
+        public bool IsValidMove(Piece?[,] board, Coordinate from, Coordinate to)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool GetValidMoves(Piece?[,] board, (int row, int column) from, out (int row, int column)[] validMoves)
+        public bool GetValidMoves(Piece?[,] board, Coordinate from, out Coordinate[] validMoves)
         {
             throw new System.NotImplementedException();
         }

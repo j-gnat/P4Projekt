@@ -26,7 +26,7 @@ namespace ChessGameLogic.Services
             return true;
         }
 
-        public bool MakeMove((int x, int column) from, (int row, int column) to)
+        public bool MakeMove(Coordinate from, Coordinate to)
         {
             return _gameType.Board.MovePiece(from, to);
         }
