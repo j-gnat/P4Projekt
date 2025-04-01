@@ -3,11 +3,11 @@
 namespace ChessGameLogic.Models
 {
     public delegate void Notify();
-    public class Board(Piece[,] boardTab)
+    public class Board(Dictionary<Coordinate, Piece?> boardTab)
     {
         public event Notify? PieceMoved;
-        public List<Move> Moves { get; set; } = [];
-        public Piece?[,] BoardTab { get; set; } = boardTab;
+        public List<Move> Moves { get; set; } = new();
+        public Dictionary<Coordinate, Piece?> BoardTab { get; set; } = boardTab;
 
         public bool MovePiece(Coordinate from, Coordinate to)
         {
@@ -15,18 +15,21 @@ namespace ChessGameLogic.Models
             bool result = false;
             try
             {
-                Piece piece = BoardTab[from.row, from.column] ?? throw new NullReferenceException();
-
-                if (piece.MoveStrategy?.IsValidMove(BoardTab, from, to) ?? false)
+                if (!BoardTab.TryGetValue(from, out Piece? piece) || piece == null)
                 {
-                    List<(Piece? piece, Coordinate position)>? takenPieces = [];
-                    if (BoardTab[to.row, to.column] != null)
+                    throw new NullReferenceException();
+                }
+
+                if (piece.IsCoordinateValidToMove(BoardTab, from, to))
+                {
+                    List<(Piece? piece, Coordinate position)>? takenPieces = new();
+                    if (BoardTab.TryGetValue(to, out Piece? targetPiece) && targetPiece != null)
                     {
-                        takenPieces.Add((BoardTab[to.row, to.column], to));
+                        takenPieces.Add((targetPiece, to));
                     }
-                    move = new (from, to, piece, takenPieces);
-                    BoardTab[to.row, to.column] = piece;
-                    BoardTab[from.row, from.column] = null;
+                    move = new(from, to, piece, takenPieces);
+                    BoardTab[to] = piece;
+                    BoardTab[from] = null;
                     OnPieceMoved();
                     result = true;
                 }
@@ -40,7 +43,7 @@ namespace ChessGameLogic.Models
             catch (Exception ex)
             {
                 result = false;
-                string pieceType = BoardTab[from.row, from.column]?.Type.ToString() ?? "Unknown";
+                string pieceType = BoardTab.TryGetValue(from, out Piece? p) && p != null ? p.Type.ToString() : "Unknown";
                 Logger.ErrorLog($"An unhandled error occurred while moving the piece \"{pieceType}\" from ({from.row}, {from.column}) to ({to.row}, {to.column}). {ex}");
                 return result;
             }

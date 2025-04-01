@@ -11,7 +11,7 @@ namespace ChessGameLogic.Services.MoveStrategies
             throw new System.NotImplementedException();
         }
 
-        public bool GetValidMoves(Piece?[,] board, Coordinate from, out Coordinate[] validMoves)
+        public bool GetMoves(Dictionary<Coordinate, Piece?> board, Coordinate from, out IEnumerable<Coordinate> validMoves)
         {
             throw new System.NotImplementedException();
         }

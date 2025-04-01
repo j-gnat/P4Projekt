@@ -28,7 +28,7 @@ namespace ChessGameLogic.Services
 
         public bool MakeMove(Coordinate from, Coordinate to)
         {
-            return _gameType.Board.MovePiece(from, to);
+            return _gameType.MovePiece(from, to);
         }
 
         public bool ResetGame()

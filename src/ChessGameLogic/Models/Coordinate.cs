@@ -1,7 +1,8 @@
 ﻿namespace ChessGameLogic.Models;
 
-public class Coordinate(int row, int column)
+public record Coordinate(int row, int column)
 {
-    public int row { get; set; } = row;
-    public int column { get; set; } = column;
+    public int row { get; private set; } = row;
+    public int column { get; private set; } = column;
+    public (int row, int column) ToTuple() => (row, column);
 }

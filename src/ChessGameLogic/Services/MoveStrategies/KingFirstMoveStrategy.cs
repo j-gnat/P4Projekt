@@ -1,10 +1,9 @@
 ﻿using ChessGameLogic.Interfaces;
 using ChessGameLogic.Models;
-using ChessGameLogic.Utils;
 
 namespace ChessGameLogic.Services.MoveStrategies;
 
-public class RookMoveStrategy : IMoveStrategy
+public class KingFirstMoveStrategy :IMoveStrategy
 {
     public bool GetMoves(Dictionary<Coordinate, Piece?> board, Coordinate startPosition, out IEnumerable<Coordinate> possibleMoves)
     {
@@ -13,9 +12,11 @@ public class RookMoveStrategy : IMoveStrategy
         {
             return false;
         }
-
-        possibleMoves = PositionModifier.GetAllHorizontalAndVerticalCoordinates(board.Keys, startPosition);
-
+        possibleMoves = new List<Coordinate>
+        {
+            new Coordinate(startPosition.row, startPosition.column + 2),
+            new Coordinate(startPosition.row, startPosition.column - 2)
+        };
         return true;
     }
 }

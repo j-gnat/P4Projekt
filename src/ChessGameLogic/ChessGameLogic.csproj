@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Generic\Generic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Assets\" />
+  </ItemGroup>
+
 </Project>

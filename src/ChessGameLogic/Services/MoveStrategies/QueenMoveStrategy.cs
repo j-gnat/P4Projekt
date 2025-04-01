@@ -1,19 +1,23 @@
 ﻿using ChessGameLogic.Interfaces;
 using ChessGameLogic.Models;
+using ChessGameLogic.Utils;
 
 namespace ChessGameLogic.Services.MoveStrategies
 {
     public class QueenMoveStrategy : IMoveStrategy
     {
-        public bool HasMoved { get; set; }
-        public bool IsValidMove(Piece?[,] board, Coordinate from, Coordinate to)
+        public bool GetMoves(Dictionary<Coordinate, Piece?> board, Coordinate startPosition, out IEnumerable<Coordinate> possibleMoves)
         {
-            throw new System.NotImplementedException();
-        }
+            List<Coordinate> moves = new List<Coordinate>();
+            possibleMoves = moves;
+            if (board.TryGetValue(startPosition, out Piece? piece) || piece is null)
+            {
+                return false;
+            }
+            moves.AddRange(PositionModifier.GetAllDiagonalCoordinates(board.Keys, startPosition));
+            moves.AddRange(PositionModifier.GetAllHorizontalAndVerticalCoordinates(board.Keys, startPosition));
 
-        public bool GetValidMoves(Piece?[,] board, Coordinate from, out Coordinate[] validMoves)
-        {
-            throw new System.NotImplementedException();
+            return true;
         }
     }
 }

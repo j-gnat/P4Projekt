@@ -36,4 +36,20 @@ public static class PositionModifier
     {
         return new Coordinate(position.row + steps, position.column + steps);
     }
+    public static IEnumerable<Coordinate> GetAllDiagonalCoordinates(IEnumerable<Coordinate> coordinates, Coordinate currentPosition)
+    {
+        List<Coordinate> result = coordinates
+            .Where(coord => Math.Abs(currentPosition.row - coord.row) == Math.Abs(currentPosition.column - coord.column))
+            .Select(coord => coord)
+            .ToList();
+        return result;
+    }
+    public static IEnumerable<Coordinate> GetAllHorizontalAndVerticalCoordinates(IEnumerable<Coordinate> coordinates, Coordinate currentPosition)
+    {
+        List<Coordinate> result = coordinates
+            .Where(coord => currentPosition.row == coord.row || currentPosition.column == coord.column)
+            .Select(coord => coord)
+            .ToList();
+        return result;
+    }
 }

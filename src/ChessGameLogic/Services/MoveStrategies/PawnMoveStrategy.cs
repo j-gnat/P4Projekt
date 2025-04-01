@@ -1,12 +1,19 @@
 ﻿using ChessGameLogic.Enums;
 using ChessGameLogic.Interfaces;
 using ChessGameLogic.Models;
+using ChessGameLogic.Utils;
 
 namespace ChessGameLogic.Services.MoveStrategies
 {
     public class PawnMoveStrategy(MoveDirection moveDirection) : IMoveStrategy
     {
-        public bool HasMoved { get; set; }
+        private static readonly Dictionary<MoveDirection, Func<Coordinate, int, Coordinate>> s_standardMoveDictionary = new Dictionary<MoveDirection, Func<Coordinate, int, Coordinate>>
+        {
+            { MoveDirection.Up, PositionModifier.MoveUp },
+            { MoveDirection.Down, PositionModifier.MoveDown },
+            { MoveDirection.Left, PositionModifier.MoveLeft },
+            { MoveDirection.Right, PositionModifier.MoveRight },
+        };
 
         private MoveDirection _moveDirection = moveDirection;
 
@@ -15,7 +22,7 @@ namespace ChessGameLogic.Services.MoveStrategies
             throw new System.NotImplementedException();
         }
 
-        public bool GetValidMoves(Piece?[,] board, Coordinate from, out Coordinate[] validMoves)
+        public bool GetMoves(Dictionary<Coordinate, Piece?> board, Coordinate from, out IEnumerable<Coordinate> validMoves)
         {
             throw new System.NotImplementedException();
         }

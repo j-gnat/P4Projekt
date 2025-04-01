@@ -2,6 +2,7 @@
 {
     public enum MoveDirection
     {
+        Meaningless = 0,
         Up,
         Down,
         Left,
@@ -10,6 +11,5 @@
         UpRight,
         DownLeft,
         DownRight,
-        Meaningless
     }
 }

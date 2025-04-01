@@ -1,30 +1,41 @@
 ﻿using ChessGameLogic.Enums;
 
-namespace ChessGameLogic.Models.GameTypes
+namespace ChessGameLogic.Models.GameTypes;
+
+public abstract class GameType
 {
-    public abstract class GameType
+    public abstract Board Board { get; }
+    public abstract List<(PieceColor color, bool isTurn)> PieceColorTurn { get; }
+
+    protected GameType()
     {
-        public abstract Board Board { get; }
-        public abstract List<(PieceColor color, bool isTurn)> PieceColorTurn { get; }
+        Board.PieceMoved += ChangeTurn;
+    }
 
-        protected GameType()
-        {
-            Board.PieceMoved += ChangeTurn;
-        }
+    public abstract bool MovePiece(Coordinate from, Coordinate to);
 
-        public abstract bool ResetGame();
+    public abstract bool ResetGame();
 
-        public PieceColor GetCurrentTurnColor()
-        {
-            return PieceColorTurn.Find(x => x.isTurn).color;
-        }
+    public PieceColor GetCurrentTurnColor()
+    {
+        return PieceColorTurn.Find(x => x.isTurn).color;
+    }
 
-        private void ChangeTurn()
-        {
-            int currentTurn = PieceColorTurn.IndexOf(PieceColorTurn.Find(x => x.isTurn));
-            int nextTurn = currentTurn == PieceColorTurn.Count - 1 ? 0 : currentTurn + 1;
-            PieceColorTurn[currentTurn] = (PieceColorTurn[currentTurn].color, false);
-            PieceColorTurn[nextTurn] = (PieceColorTurn[nextTurn].color, true);
-        }
+    private void ChangeTurn()
+    {
+        int currentTurn = GetIndexCurrentPlayerTurn();
+        int nextTurn = GetIndexNextPlayerTurn(currentTurn);
+        PieceColorTurn[currentTurn] = (PieceColorTurn[currentTurn].color, false);
+        PieceColorTurn[nextTurn] = (PieceColorTurn[nextTurn].color, true);
+    }
+
+    private int GetIndexNextPlayerTurn(int currentTurn)
+    {
+        return currentTurn == PieceColorTurn.Count - 1 ? 0 : currentTurn + 1;
+    }
+
+    private int GetIndexCurrentPlayerTurn()
+    {
+        return PieceColorTurn.IndexOf(PieceColorTurn.Find(x => x.isTurn));
     }
 }
