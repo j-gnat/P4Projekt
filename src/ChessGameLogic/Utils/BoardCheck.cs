@@ -16,4 +16,9 @@ public static class BoardCheck
         board.TryGetValue(position, out Piece? piece);
         return piece?.Color != color;
     }
+
+    public static bool IsEnemy(Piece piece, Piece targetPiece)
+    {
+        return targetPiece.Color != piece.Color;
+    }
 }

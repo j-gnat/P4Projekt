@@ -6,7 +6,7 @@ namespace ChessGameLogic.Models
     public class Board(Dictionary<Coordinate, Piece?> boardTab)
     {
         public event Notify? PieceMoved;
-        public List<Move> Moves { get; set; } = new();
+        public List<Move> Moves { get; set; } = [];
         public Dictionary<Coordinate, Piece?> BoardTab { get; set; } = boardTab;
 
         public bool MovePiece(Coordinate from, Coordinate to)
@@ -22,7 +22,7 @@ namespace ChessGameLogic.Models
 
                 if (piece.IsCoordinateValidToMove(BoardTab, from, to))
                 {
-                    List<(Piece? piece, Coordinate position)>? takenPieces = new();
+                    List<(Piece? piece, Coordinate position)>? takenPieces = [];
                     if (BoardTab.TryGetValue(to, out Piece? targetPiece) && targetPiece != null)
                     {
                         takenPieces.Add((targetPiece, to));

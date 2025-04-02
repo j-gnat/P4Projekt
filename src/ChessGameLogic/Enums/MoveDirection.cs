@@ -11,5 +11,9 @@
         UpRight,
         DownLeft,
         DownRight,
+        LeftUp,
+        LeftDown,
+        RightUp,
+        RightDown
     }
 }

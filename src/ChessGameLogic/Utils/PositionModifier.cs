@@ -1,4 +1,5 @@
 ﻿using ChessGameLogic.Models;
+using ChessGameLogic.Enums;
 
 namespace ChessGameLogic.Utils;
 
@@ -51,5 +52,22 @@ public static class PositionModifier
             .Select(coord => coord)
             .ToList();
         return result;
+    }
+
+    public static bool GetLinearMoveFunction(MoveDirection direction, out Func<Coordinate, int, Coordinate>? func)
+    {
+        func = direction switch
+        {
+            MoveDirection.Up => MoveUp,
+            MoveDirection.Down => MoveDown,
+            MoveDirection.Left => MoveLeft,
+            MoveDirection.Right => MoveRight,
+            MoveDirection.UpLeft => MoveUpLeft,
+            MoveDirection.UpRight => MoveUpRight,
+            MoveDirection.DownLeft => MoveDownLeft,
+            MoveDirection.DownRight => MoveDownRight,
+            _ => null,
+        };
+        return func != null;
     }
 }

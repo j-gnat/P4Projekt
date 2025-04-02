@@ -12,7 +12,7 @@ namespace ChessGameLogic.Utils
                 .Select(b => b.Key)
                 .FirstOrDefault();
             bool isInCheck = board.Where(b => b.Value?.Color != playerColor)
-                .Any(b => b.Value?.MoveStrategy?.GetMoves(board, b.Key, out IEnumerable<Coordinate> results) ?? false && results.Contains(kingPosition));
+                .Any(b => b.Value?.GetValidMoves(board, b.Key).Contains(kingPosition) == true);
             return isInCheck;
         }
         public static bool IsCheckMate(Piece?[,] board, PieceColor playerColor)
