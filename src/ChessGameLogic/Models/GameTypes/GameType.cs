@@ -4,11 +4,13 @@ namespace ChessGameLogic.Models.GameTypes;
 
 public abstract class GameType
 {
-    public abstract Board Board { get; }
+    protected Board _board { get; set; }
+    public Board Board { get => _board; }
     public abstract List<(PieceColor color, bool isTurn)> PieceColorTurn { get; }
 
-    protected GameType()
+    protected GameType(Board board)
     {
+        _board = board;
         Board.PieceMoved += ChangeTurn;
     }
 

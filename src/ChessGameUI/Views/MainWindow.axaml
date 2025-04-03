@@ -3,7 +3,9 @@
         xmlns:vm="using:ChessGameUI.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="840" d:DesignHeight="640"
+        Width="840" Height="640"
+        MinWidth="700" MinHeight="500"
         x:Class="ChessGameUI.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
@@ -14,7 +16,42 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+    <Grid Name="GridUI">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0"
+                Background="Sienna"
+                Padding="10"
+                BorderBrush="Black">
+            <StackPanel>
+                <TextBlock Text="Chess Game UI"
+                           FontSize="24"
+                           HorizontalAlignment="Center"
+                           Grid.Column="0"/>
+                <Button Content="Reset Game"
+                        Command="{Binding StartGameCommand}"
+                        Margin="10"
+                        HorizontalAlignment="Stretch"
+                        Grid.Column="0"
+                        />
+                <Button Content="Undo"
+                        Command="{Binding LoadGameCommand}"
+                        Margin="10"
+                        HorizontalAlignment="Stretch"
+                        Grid.Column="0"
+                        />
+            </StackPanel>
+        </Border>
+        <Border Grid.Column="1"
+                Background="BurlyWood"
+                Padding="10"
+                BorderBrush="Black"
+                BorderThickness="1,1,1,1"
+                Margin="10,10,10,10">
+                <Grid Name="GridBoard" Grid.Column="1">
+                </Grid>
+        </Border>
+    </Grid>
 </Window>

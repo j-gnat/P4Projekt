@@ -27,4 +27,6 @@ public class Piece(
     {
         throw new NotImplementedException();
     }
+
+    public override string ToString() => $"Piece {{Type: {Type.ToString()} Color: {Color.ToString()} HasMoved: {HasMoved.ToString()}}}";
 }

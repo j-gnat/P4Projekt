@@ -50,5 +50,9 @@ namespace ChessGameLogic.Services
         {
             throw new System.NotImplementedException();
         }
+        public Dictionary<Coordinate, Piece?> GetBoardDictionary()
+        {
+            return _gameType.Board.BoardTab;
+        }
     }
 }

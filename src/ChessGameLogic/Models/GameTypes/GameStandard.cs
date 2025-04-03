@@ -6,7 +6,6 @@ namespace ChessGameLogic.Models.GameTypes;
 
 public class GameStandard : GameType
 {
-    private Board _board;
     private List<(PieceColor color, bool isTurn)> _pieceColorTurn;
     private static readonly List<MoveDirection> s_movesDirectionWhitePawn = [MoveDirection.Up];
     private static readonly List<MoveDirection> s_movesDirectionWhitePawnEnPassant = [MoveDirection.UpLeft, MoveDirection.UpRight];
@@ -24,12 +23,10 @@ public class GameStandard : GameType
     private static readonly List<IMoveStrategy> s_moveStrategyKing = [new MoveInLine(s_movesDirectionQueenAndKing)];
     private static readonly List<IMoveStrategy> s_moveStrategyKnight = [new MoveKnightStyle(s_movesDirectionKnight)];
 
-    public override Board Board => _board;
     public override List<(PieceColor color, bool isTurn)> PieceColorTurn => _pieceColorTurn;
 
-    public GameStandard()
+    public GameStandard() : base(GetStandardBoard())
     {
-        _board = GetStandardBoard();
         _pieceColorTurn = GetStandardPieceColorTurn();
     }
 
