@@ -32,6 +32,11 @@ public class GameStandard : GameType
 
     public override bool MovePiece(Coordinate from, Coordinate to)
     {
+        if (!IsPieceTurn(from))
+        {
+            return false;
+        }
+
         if (!_board.MovePiece(from, to))
         {
             return false;
@@ -48,6 +53,11 @@ public class GameStandard : GameType
 
     public override IEnumerable<Coordinate> GetValidMoves(Coordinate from)
     {
+        if (!IsPieceTurn(from))
+        {
+            return new List<Coordinate>();
+        }
+
         Piece? piece = _board.GetPiece(from);
         return piece == null
             ? throw new InvalidOperationException("There is no piece on the given position.")

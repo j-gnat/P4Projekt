@@ -51,4 +51,8 @@ public abstract class GameType
             Type = type,
             MoveStrategy = moveStrategy
         };
+
+    protected bool IsPieceTurn(Coordinate from) =>
+        PieceColorTurn.Where(p => p.isTurn == true)
+            .Any(p => p.color == Board.GetPiece(from)?.Color);
 }
