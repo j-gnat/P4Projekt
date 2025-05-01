@@ -1,9 +1,8 @@
 ﻿using ChessGameLogic.Models;
 
-namespace ChessGameLogic.Interfaces
+namespace ChessGameLogic.Interfaces;
+
+public interface IMoveStrategy
 {
-    public interface IMoveStrategy
-    {
-        IEnumerable<Coordinate> GetMoves(Dictionary<Coordinate, Piece?> board, Coordinate from);
-    }
+    IEnumerable<Coordinate> GetMoves(Dictionary<Coordinate, Piece?> board, Coordinate from);
 }

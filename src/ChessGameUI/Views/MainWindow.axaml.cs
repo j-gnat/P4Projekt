@@ -7,107 +7,161 @@ using ChessGameLogic.Enums;
 using Avalonia.Media;
 using Avalonia;
 using System;
+using ChessGameUI.Models;
 
 namespace ChessGameUI.Views;
 
 public partial class MainWindow : Window
 {
-    private ChessGame _gameService;
-    private IBrush _brushLightCells = Brushes.White;
-    private IBrush _brushDarkCells = Brushes.Brown;
-    private IBrush _brushBorder = Brushes.Black;
-    private bool _flipBoard = false;
-    private Dictionary<Coordinate, Coordinate> _gridBoardPiecePosiotions = [];
+    private readonly ChessGame _gameService;
+    private readonly Grid _gridBoard;
+    private readonly BoardGridTranslator _boardGridTranslator;
+    private readonly IBrush _brushLightCells = Brushes.BlanchedAlmond;
+    private readonly IBrush _brushDarkCells = Brushes.SaddleBrown;
+    private readonly IBrush _brushLightPieces = Brushes.White;
+    private readonly IBrush _brushDarkPieces = Brushes.Black;
+    private readonly IBrush _brushBorder = Brushes.Black;
+    private readonly List<Button> _moveButtons = [];
+
     public MainWindow()
     {
         InitializeComponent();
         _gameService = new ChessGame();
-        InitializeGameGrid();
+        _boardGridTranslator = new BoardGridTranslator(_gameService.GetBoard());
+        _gridBoard = new Grid();
+        CanvasBoard.Children.Add( _gridBoard );
+        Loaded += (s, e) => InitializeGameGrid();
+        SizeChanged += (s, e) => ResizeGameGrid();
     }
 
     private void InitializeGameGrid()
     {
-        Dictionary<Coordinate, Piece?> board = _gameService.GetBoardDictionary();
-        int maxRow = board.Keys.Max(r => r.row);
-        int maxColumn = board.Keys.Max(r => r.column);
-        int minRow = board.Keys.Min(r => r.row);
-        int minColumn = board.Keys.Min(r => r.column);
-        for (int i = minRow; i <= maxRow; i++)
+        InitializeBoardUI();
+        PutPiecesOnTheBoard();
+    }
+
+    private void InitializeBoardUI()
+    {
+        AddRowsAndColumns();
+        SetVisualPropertiesForEachCell();
+        ResizeGameGrid();
+    }
+
+    private void AddRowsAndColumns()
+    {
+        _gridBoard.RowDefinitions.Clear();
+        _gridBoard.ColumnDefinitions.Clear();
+        for (int row = 0; row <= _boardGridTranslator.RowsCount; row++)
         {
-            GridBoard.RowDefinitions.Add(new RowDefinition());
+            _gridBoard.RowDefinitions.Add(new RowDefinition());
         }
 
-        for (int j = minColumn; j <= maxRow; j++)
+        for (int column = 0; column <= _boardGridTranslator.ColumnsCount; column++)
         {
-            GridBoard.ColumnDefinitions.Add(new ColumnDefinition());
+            _gridBoard.ColumnDefinitions.Add(new ColumnDefinition());
         }
+    }
 
-        int columnCount = GridBoard.ColumnDefinitions.Count;
-        int rowCount = GridBoard.RowDefinitions.Count;
-        for (int i = 0; i < columnCount; i ++)
+    private void SetVisualPropertiesForEachCell()
+    {
+        for (int row = 0; row <= _boardGridTranslator.ColumnsCount; row++)
         {
-            for (int j = 0; j < rowCount; j++)
+            for (int column = 0; column <= _boardGridTranslator.ColumnsCount; column++)
             {
-                int bottomBorder = j == rowCount -1 ? 1 : 0;
-                int rightBorder = i == columnCount -1 ? 1 : 0;
+                int bottomBorder = row == _boardGridTranslator.RowsCount ? 1 : 0;
+                int rightBorder = column == _boardGridTranslator.ColumnsCount ? 1 : 0;
 
-                Thickness thickness = new Thickness(1, 1, bottomBorder, rightBorder);
-
-                Border border = new Border
+                Thickness thickness = new(1, 1, rightBorder, bottomBorder); // <object property=" left,top,right,bottom" ... />  
+                Border border = new()
                 {
+                    Background = (row + column) % 2 == 0 ? _brushLightCells : _brushDarkCells,
                     BorderBrush = _brushBorder,
                     BorderThickness = thickness,
                     HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch,
                     VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch,
                 };
-                border.Child = new Avalonia.Controls.Shapes.Rectangle
-                {
-                    Fill = (i + j) % 2 == 0 ? _brushLightCells : _brushDarkCells,
-                    
-                };
-                Grid.SetRow(border, i);
-                Grid.SetColumn(border, j);
-                GridBoard.Children.Add(border);
+                Grid.SetRow(border, row);
+                Grid.SetColumn(border, column);
+                _gridBoard.Children.Add(border);
             }
         }
+    }
 
+    private void ResizeGameGrid()
+    {
+        if (_gridBoard.Children.Count == 0)
+            return;
+
+        double width = GridUI.ColumnDefinitions[1].ActualWidth;
+        GridLength cellDim = new(Math.Min(width, Height) / Math.Max(_gridBoard.ColumnDefinitions.Count, _gridBoard.RowDefinitions.Count));
+        foreach (RowDefinition row in _gridBoard.RowDefinitions)
+        {
+            row.Height = cellDim;
+        }
+        foreach (ColumnDefinition column in _gridBoard.ColumnDefinitions)
+        {
+            column.Width = cellDim;
+        }
+    }
+
+    private void PutPiecesOnTheBoard()
+    {
+        Dictionary<Coordinate, Piece?> board = _gameService.GetBoardDictionary();
         foreach (KeyValuePair<Coordinate, Piece?> element in board.Where(b => b.Value != null))
         {
-            Button button = new Button
+            Button button = new()
             {
                 Content = element.Value!.Type.ToString(),
-                Background = element.Value!.Color == PieceColor.White ? _brushLightCells : _brushDarkCells,
-                Foreground = element.Value!.Color == PieceColor.White ? _brushDarkCells : _brushLightCells,
-                BorderBrush = element.Value!.Color == PieceColor.White ? _brushDarkCells : _brushLightCells,
+                Background = element.Value!.Color == PieceColor.White ? _brushLightPieces : _brushDarkPieces,
+                Foreground = element.Value!.Color == PieceColor.White ? _brushDarkPieces : _brushLightPieces,
+                BorderBrush = element.Value!.Color == PieceColor.White ? _brushDarkPieces : _brushLightPieces,
                 HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
                 VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
             };
             button.Click += (sender, e) => PieceOnClick(element.Key);
-            Coordinate GridPiecePosition = GridBoardCoordinateTranslator(GridBoard, element.Key);
+            Coordinate GridPiecePosition = _boardGridTranslator.TranslateCoordinte(_gridBoard, element.Key);
             Grid.SetRow(button, GridPiecePosition.row);
             Grid.SetColumn(button, GridPiecePosition.column);
-            _gridBoardPiecePosiotions.Add(element.Key, GridPiecePosition);
-            GridBoard.Children.Add(button);
+            _gridBoard.Children.Add(button);
         }
     }
 
     private void PieceOnClick(Coordinate coordinate)
     {
-        Coordinate coord = GridBoardCoordinateTranslator(GridBoard, coordinate);
+        foreach (Button button in _moveButtons)
+        {
+            _gridBoard.Children.Remove(button);
+        }
+        List<Coordinate> moves = [.. _gameService.GetValidMoves(coordinate)];
+        Brush brush = new RadialGradientBrush()
+        {
+            GradientStops =
+            [
+                new GradientStop(Colors.Black, 0),
+                new GradientStop(Colors.Transparent, 1)
+            ],
+        };
+        foreach (Coordinate move in moves)
+        {
+            Button moveButton = new()
+            {
+                Background = brush,
+                HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch,
+                VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch,
+            };
+
+            moveButton.Click += (sender, e) => MoveOnClick(coordinate, move);
+            Coordinate translatedMove = _boardGridTranslator.TranslateCoordinte(_gridBoard, move);
+            Grid.SetRow(moveButton, translatedMove.row);
+            Grid.SetColumn(moveButton, translatedMove.column);
+            _moveButtons.Add(moveButton);
+            _gridBoard.Children.Add(moveButton);
+        }
     }
 
-    /// <summary>
-    /// Translate the coordinate from the grid to the board and opposite.
-    /// In Board row number 0 is on the bottom, but in grid row number 0 is on the top.
-    /// This is the reason there is need to use this translator.
-    /// </summary>
-    /// <param name="grid"></param>
-    /// <param name="coordinate"></param>
-    /// <returns></returns>
-    private Coordinate GridBoardCoordinateTranslator(Grid grid, Coordinate coordinate)
+    private void MoveOnClick(Coordinate from, Coordinate to)
     {
-        int row = _flipBoard ? Math.Abs(grid.RowDefinitions.Count - coordinate.row - 1) : coordinate.row;
-        int column = _flipBoard ? coordinate.column : Math.Abs(coordinate.column - grid.ColumnDefinitions.Count + 1);
-        return new Coordinate(row, column);
+        _gameService.MakeMove(from, to);
+        InitializeGameGrid();
     }
 }

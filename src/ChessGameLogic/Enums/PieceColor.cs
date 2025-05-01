@@ -1,9 +1,8 @@
-﻿namespace ChessGameLogic.Enums
+﻿namespace ChessGameLogic.Enums;
+
+public enum PieceColor
 {
-    public enum PieceColor
-    {
-        None = 0,
-        White,
-        Black
-    }
+    None,
+    White,
+    Black
 }

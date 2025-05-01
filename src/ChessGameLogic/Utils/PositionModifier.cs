@@ -7,11 +7,11 @@ public static class PositionModifier
 {
     public static Coordinate MoveUp(Coordinate position, int steps = 1)
     {
-        return new Coordinate(position.row - steps, position.column);
+        return new Coordinate(position.row + steps, position.column);
     }
     public static Coordinate MoveDown(Coordinate position, int steps = 1)
     {
-        return new Coordinate(position.row + steps, position.column);
+        return new Coordinate(position.row - steps, position.column);
     }
     public static Coordinate MoveLeft(Coordinate position, int steps = 1)
     {
@@ -39,18 +39,16 @@ public static class PositionModifier
     }
     public static IEnumerable<Coordinate> GetAllDiagonalCoordinates(IEnumerable<Coordinate> coordinates, Coordinate currentPosition)
     {
-        List<Coordinate> result = coordinates
+        List<Coordinate> result = [.. coordinates
             .Where(coord => Math.Abs(currentPosition.row - coord.row) == Math.Abs(currentPosition.column - coord.column))
-            .Select(coord => coord)
-            .ToList();
+            .Select(coord => coord)];
         return result;
     }
     public static IEnumerable<Coordinate> GetAllHorizontalAndVerticalCoordinates(IEnumerable<Coordinate> coordinates, Coordinate currentPosition)
     {
-        List<Coordinate> result = coordinates
+        List<Coordinate> result = [.. coordinates
             .Where(coord => currentPosition.row == coord.row || currentPosition.column == coord.column)
-            .Select(coord => coord)
-            .ToList();
+            .Select(coord => coord)];
         return result;
     }
 

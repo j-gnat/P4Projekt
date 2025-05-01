@@ -26,32 +26,25 @@
                 Padding="10"
                 BorderBrush="Black">
             <StackPanel>
-                <TextBlock Text="Chess Game UI"
+                <TextBlock Text="Chess Game"
                            FontSize="24"
                            HorizontalAlignment="Center"
                            Grid.Column="0"/>
                 <Button Content="Reset Game"
                         Command="{Binding StartGameCommand}"
-                        Margin="10"
                         HorizontalAlignment="Stretch"
                         Grid.Column="0"
                         />
                 <Button Content="Undo"
                         Command="{Binding LoadGameCommand}"
-                        Margin="10"
                         HorizontalAlignment="Stretch"
                         Grid.Column="0"
                         />
             </StackPanel>
         </Border>
-        <Border Grid.Column="1"
-                Background="BurlyWood"
-                Padding="10"
-                BorderBrush="Black"
-                BorderThickness="1,1,1,1"
-                Margin="10,10,10,10">
-                <Grid Name="GridBoard" Grid.Column="1">
-                </Grid>
-        </Border>
+            <Canvas Grid.Column="1"
+                    Name="CanvasBoard"
+                    Background="Transparent">
+            </Canvas>
     </Grid>
 </Window>

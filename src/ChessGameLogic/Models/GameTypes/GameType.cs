@@ -1,4 +1,5 @@
 ﻿using ChessGameLogic.Enums;
+using ChessGameLogic.Interfaces;
 
 namespace ChessGameLogic.Models.GameTypes;
 
@@ -17,6 +18,8 @@ public abstract class GameType
     public abstract bool MovePiece(Coordinate from, Coordinate to);
 
     public abstract bool ResetGame();
+
+    public abstract IEnumerable<Coordinate> GetValidMoves(Coordinate from);
 
     public PieceColor GetCurrentTurnColor()
     {
@@ -40,4 +43,12 @@ public abstract class GameType
     {
         return PieceColorTurn.IndexOf(PieceColorTurn.Find(x => x.isTurn));
     }
+
+    protected static Piece GetNewPiece(PieceColor color, PieceType type, List<IMoveStrategy> moveStrategy) =>
+        new()
+        {
+            Color = color,
+            Type = type,
+            MoveStrategy = moveStrategy
+        };
 }

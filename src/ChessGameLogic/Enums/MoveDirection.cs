@@ -1,19 +1,18 @@
-﻿namespace ChessGameLogic.Enums
+﻿namespace ChessGameLogic.Enums;
+
+public enum MoveDirection
 {
-    public enum MoveDirection
-    {
-        Meaningless = 0,
-        Up,
-        Down,
-        Left,
-        Right,
-        UpLeft,
-        UpRight,
-        DownLeft,
-        DownRight,
-        LeftUp,
-        LeftDown,
-        RightUp,
-        RightDown
-    }
+    Meaningless,
+    Up,
+    Down,
+    Left,
+    Right,
+    UpLeft,
+    UpRight,
+    DownLeft,
+    DownRight,
+    LeftUp,
+    LeftDown,
+    RightUp,
+    RightDown
 }

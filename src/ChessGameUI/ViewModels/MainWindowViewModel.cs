@@ -1,7 +1,4 @@
-﻿using System.Drawing;
-using Avalonia.Media;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 
 namespace ChessGameUI.ViewModels;
 

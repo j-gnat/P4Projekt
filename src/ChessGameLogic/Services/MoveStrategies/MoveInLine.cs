@@ -21,11 +21,10 @@ public class MoveInLine(IEnumerable<MoveDirection> directions, int maxSteps = -1
             }
 
             int maxSteps = ValidateMaxSteps(board, from, direction);
-            Coordinate currentPosition = from;
 
-            for (int i = 0; i < maxSteps; i++)
+            for (int i = 1; i <= maxSteps; i++)
             {
-                currentPosition = moveFunction!(currentPosition, i);
+                Coordinate currentPosition = moveFunction!(from, i);
 
                 // I'm allowing that board have gaps, so I continue if the position is not in the board
                 if (!board.ContainsKey(currentPosition))
@@ -69,7 +68,7 @@ public class MoveInLine(IEnumerable<MoveDirection> directions, int maxSteps = -1
             _ => 0,
         };
 
-        if (_maxSteps != -1)
+        if (_maxSteps == -1)
         {
             return result;
         }
