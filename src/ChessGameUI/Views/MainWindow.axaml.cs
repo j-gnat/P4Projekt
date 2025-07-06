@@ -1,12 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Media;
+using ChessGameLogic.Enums;
 using ChessGameLogic.Models;
 using ChessGameLogic.Services;
-using ChessGameLogic.Enums;
-using Avalonia.Media;
-using Avalonia;
-using System;
 using ChessGameUI.Models;
 
 namespace ChessGameUI.Views;
@@ -29,7 +29,7 @@ public partial class MainWindow : Window
         _gameService = new ChessGame();
         _boardGridTranslator = new BoardGridTranslator(_gameService.GetBoard());
         _gridBoard = new Grid();
-        CanvasBoard.Children.Add( _gridBoard );
+        CanvasBoard.Children.Add(_gridBoard);
         Loaded += (s, e) => InitializeGameGrid();
         SizeChanged += (s, e) => ResizeGameGrid();
     }

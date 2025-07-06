@@ -1,5 +1,6 @@
 ﻿using ChessGameLogic.Enums;
 using ChessGameLogic.Interfaces;
+using ChessGameLogic.Models.Rules;
 using ChessGameLogic.Services.MoveStrategies;
 
 namespace ChessGameLogic.Models.GameTypes;
@@ -23,6 +24,8 @@ public class GameStandard : GameType
     private static readonly List<IMoveStrategy> s_moveStrategyKing = [new MoveInLine(s_movesDirectionQueenAndKing, 1)];
     private static readonly List<IMoveStrategy> s_moveStrategyKnight = [new MoveKnightStyle(s_movesDirectionKnight)];
 
+    private static readonly List<IMoveRule> s_moveRules = [new CheckRule()];
+
     public override List<(PieceColor color, bool isTurn)> PieceColorTurn => _pieceColorTurn;
 
     public GameStandard() : base(GetStandardBoard())
@@ -37,10 +40,17 @@ public class GameStandard : GameType
             return false;
         }
 
+        foreach (var ruleManager in s_moveRules)
+        {
+            if (!ruleManager.IsValidMove(from, to, _board.BoardTab))
+                return false;
+        }
+
         if (!_board.MovePiece(from, to))
         {
             return false;
         }
+
         return true;
     }
 
@@ -59,9 +69,21 @@ public class GameStandard : GameType
         }
 
         Piece? piece = _board.GetPiece(from);
-        return piece == null
+
+        List<Coordinate> validMoves = piece == null
             ? throw new InvalidOperationException("There is no piece on the given position.")
-            : piece.GetValidMoves(_board.BoardTab, from);
+            : piece.GetMoves(_board.BoardTab, from).ToList();
+
+        var validMovesCopy = validMoves.ToList();
+
+        //foreach (var move in validMovesCopy) {
+        //    if (!_board.(from, move))
+        //    {
+        //        validMoves.Remove(move);
+        //    }
+        //}
+
+        return validMoves;
     }
 
     private static Board GetStandardBoard()
@@ -88,13 +110,13 @@ public class GameStandard : GameType
         }
 
         boardTab[new Coordinate(7, 0)] = GetNewPiece(PieceColor.Black, PieceType.Rook, s_moveStrategyRook);
-        boardTab[new Coordinate(7, 1)] = GetNewPiece(PieceColor.Black,PieceType.Knight, s_moveStrategyKnight);
-        boardTab[new Coordinate(7, 2)] = GetNewPiece(PieceColor.Black,PieceType.Bishop, s_moveStrategyBishop);
-        boardTab[new Coordinate(7, 3)] = GetNewPiece(PieceColor.Black,PieceType.Queen, s_moveStrategyQueen);
-        boardTab[new Coordinate(7, 4)] = GetNewPiece(PieceColor.Black,PieceType.King, s_moveStrategyKing);
-        boardTab[new Coordinate(7, 5)] = GetNewPiece(PieceColor.Black,PieceType.Bishop, s_moveStrategyBishop);
-        boardTab[new Coordinate(7, 6)] = GetNewPiece(PieceColor.Black,PieceType.Knight, s_moveStrategyKnight);
-        boardTab[new Coordinate(7, 7)] = GetNewPiece(PieceColor.Black,PieceType.Rook, s_moveStrategyRook);
+        boardTab[new Coordinate(7, 1)] = GetNewPiece(PieceColor.Black, PieceType.Knight, s_moveStrategyKnight);
+        boardTab[new Coordinate(7, 2)] = GetNewPiece(PieceColor.Black, PieceType.Bishop, s_moveStrategyBishop);
+        boardTab[new Coordinate(7, 3)] = GetNewPiece(PieceColor.Black, PieceType.Queen, s_moveStrategyQueen);
+        boardTab[new Coordinate(7, 4)] = GetNewPiece(PieceColor.Black, PieceType.King, s_moveStrategyKing);
+        boardTab[new Coordinate(7, 5)] = GetNewPiece(PieceColor.Black, PieceType.Bishop, s_moveStrategyBishop);
+        boardTab[new Coordinate(7, 6)] = GetNewPiece(PieceColor.Black, PieceType.Knight, s_moveStrategyKnight);
+        boardTab[new Coordinate(7, 7)] = GetNewPiece(PieceColor.Black, PieceType.Rook, s_moveStrategyRook);
 
         for (int row = 2; row < 6; row++)
         {
@@ -104,7 +126,7 @@ public class GameStandard : GameType
             }
         }
 
-        return new Board(boardTab);
+        return new Board { BoardTab = boardTab };
     }
 
     private static List<(PieceColor color, bool isTurn)> GetStandardPieceColorTurn() =>

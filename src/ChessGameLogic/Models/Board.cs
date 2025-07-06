@@ -3,11 +3,11 @@
 namespace ChessGameLogic.Models;
 
 public delegate void Notify();
-public class Board(Dictionary<Coordinate, Piece?> boardTab)
+public class Board
 {
     public event Notify? PieceMoved;
     public List<Move> Moves { get; set; } = [];
-    public Dictionary<Coordinate, Piece?> BoardTab { get; set; } = boardTab;
+    public required Dictionary<Coordinate, Piece?> BoardTab { get; init; }
 
     public bool MovePiece(Coordinate from, Coordinate to)
     {

@@ -76,5 +76,5 @@ public class MoveInLine(IEnumerable<MoveDirection> directions, int maxSteps = -1
         return Math.Min(result, _maxSteps);
     }
 
-    
+
 }

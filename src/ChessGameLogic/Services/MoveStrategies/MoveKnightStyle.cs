@@ -7,7 +7,7 @@ namespace ChessGameLogic.Services.MoveStrategies;
 
 public class MoveKnightStyle(IEnumerable<MoveDirection> directions) : IMoveStrategy
 {
-    private readonly Dictionary<MoveDirection, Func<Coordinate,Coordinate>> _directionsTranslator = new()
+    private readonly Dictionary<MoveDirection, Func<Coordinate, Coordinate>> _directionsTranslator = new()
     {
         { MoveDirection.UpLeft, (from) => new Coordinate(from.row + 2, from.column - 1) },
         { MoveDirection.UpRight, (from) => new Coordinate(from.row + 2, from.column + 1) },

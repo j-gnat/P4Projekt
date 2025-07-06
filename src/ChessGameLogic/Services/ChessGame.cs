@@ -7,6 +7,8 @@ public class ChessGame
 {
     private GameType _gameType;
 
+    public event Notify? CheckMate;
+
     public ChessGame()
     {
         _gameType = new GameStandard();
@@ -25,7 +27,12 @@ public class ChessGame
 
     public bool MakeMove(Coordinate from, Coordinate to)
     {
-        return _gameType.MovePiece(from, to);
+        var result = _gameType.MovePiece(from, to);
+        if ( _gameType.IsCheckMate)
+        {
+            OnCheckMate();
+        }
+        return result;
     }
 
     public IEnumerable<Coordinate> GetValidMoves(Coordinate from)
@@ -60,5 +67,10 @@ public class ChessGame
     public Board GetBoard()
     {
         return _gameType.Board;
+    }
+
+    private void OnCheckMate()
+    {
+        CheckMate?.Invoke();
     }
 }

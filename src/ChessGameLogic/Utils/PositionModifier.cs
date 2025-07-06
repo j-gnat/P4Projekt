@@ -1,5 +1,5 @@
-﻿using ChessGameLogic.Models;
-using ChessGameLogic.Enums;
+﻿using ChessGameLogic.Enums;
+using ChessGameLogic.Models;
 
 namespace ChessGameLogic.Utils;
 

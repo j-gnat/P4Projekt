@@ -9,6 +9,8 @@ public abstract class GameType
     public Board Board { get => _board; }
     public abstract List<(PieceColor color, bool isTurn)> PieceColorTurn { get; }
 
+    public bool IsCheckMate = false;
+
     protected GameType(Board board)
     {
         _board = board;

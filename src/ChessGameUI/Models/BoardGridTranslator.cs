@@ -1,8 +1,8 @@
-﻿using Avalonia.Controls;
-using System;
-using ChessGameLogic.Models;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Avalonia.Controls;
+using ChessGameLogic.Models;
 
 namespace ChessGameUI.Models;
 
