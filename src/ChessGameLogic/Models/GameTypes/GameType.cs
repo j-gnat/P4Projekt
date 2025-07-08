@@ -28,14 +28,6 @@ public abstract class GameType
         return PieceColorTurn.Find(x => x.isTurn).color;
     }
 
-    private void ChangeTurn()
-    {
-        int currentTurn = GetIndexCurrentPlayerTurn();
-        int nextTurn = GetIndexNextPlayerTurn(currentTurn);
-        PieceColorTurn[currentTurn] = (PieceColorTurn[currentTurn].color, false);
-        PieceColorTurn[nextTurn] = (PieceColorTurn[nextTurn].color, true);
-    }
-
     private int GetIndexNextPlayerTurn(int currentTurn)
     {
         return currentTurn == PieceColorTurn.Count - 1 ? 0 : currentTurn + 1;
@@ -44,6 +36,13 @@ public abstract class GameType
     private int GetIndexCurrentPlayerTurn()
     {
         return PieceColorTurn.IndexOf(PieceColorTurn.Find(x => x.isTurn));
+    }
+    protected void ChangeTurn()
+    {
+        int currentTurn = GetIndexCurrentPlayerTurn();
+        int nextTurn = GetIndexNextPlayerTurn(currentTurn);
+        PieceColorTurn[currentTurn] = (PieceColorTurn[currentTurn].color, false);
+        PieceColorTurn[nextTurn] = (PieceColorTurn[nextTurn].color, true);
     }
 
     protected static Piece GetNewPiece(PieceColor color, PieceType type, List<IMoveStrategy> moveStrategy) =>

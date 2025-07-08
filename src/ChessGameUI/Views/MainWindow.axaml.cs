@@ -32,6 +32,7 @@ public partial class MainWindow : Window
         CanvasBoard.Children.Add(_gridBoard);
         Loaded += (s, e) => InitializeGameGrid();
         SizeChanged += (s, e) => ResizeGameGrid();
+        ResetButton.Click += (s, e) => ResetGame();
     }
 
     private void InitializeGameGrid()
@@ -162,6 +163,12 @@ public partial class MainWindow : Window
     private void MoveOnClick(Coordinate from, Coordinate to)
     {
         _gameService.MakeMove(from, to);
+        InitializeGameGrid();
+    }
+
+    private void ResetGame()
+    {
+        _gameService.ResetGame();
         InitializeGameGrid();
     }
 }

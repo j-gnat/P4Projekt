@@ -58,6 +58,7 @@ public class GameStandard : GameType
     {
         _board = GetStandardBoard();
         _pieceColorTurn = GetStandardPieceColorTurn();
+        Board.PieceMoved += ChangeTurn;
         return true;
     }
 

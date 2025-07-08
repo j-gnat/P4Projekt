@@ -30,13 +30,8 @@
                            FontSize="24"
                            HorizontalAlignment="Center"
                            Grid.Column="0"/>
-                <Button Content="Reset Game"
-                        Command="{Binding StartGameCommand}"
-                        HorizontalAlignment="Stretch"
-                        Grid.Column="0"
-                        />
-                <Button Content="Undo"
-                        Command="{Binding LoadGameCommand}"
+                <Button Name="ResetButton"
+                        Content="Reset Game"
                         HorizontalAlignment="Stretch"
                         Grid.Column="0"
                         />
