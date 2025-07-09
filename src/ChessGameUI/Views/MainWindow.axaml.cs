@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
@@ -16,12 +16,11 @@ public partial class MainWindow : Window
     private readonly ChessGame _gameService;
     private readonly Grid _gridBoard;
     private readonly BoardGridTranslator _boardGridTranslator;
-    private readonly IBrush _brushLightCells = Brushes.BlanchedAlmond;
+    private readonly IBrush _brushLightCells = Brushes.Peru;
     private readonly IBrush _brushDarkCells = Brushes.SaddleBrown;
-    private readonly IBrush _brushLightPieces = Brushes.White;
-    private readonly IBrush _brushDarkPieces = Brushes.Black;
     private readonly IBrush _brushBorder = Brushes.Black;
     private readonly List<Button> _moveButtons = [];
+    private double _currentCellSize = 42;
 
     public MainWindow()
     {
@@ -94,7 +93,9 @@ public partial class MainWindow : Window
             return;
 
         double width = GridUI.ColumnDefinitions[1].ActualWidth;
-        GridLength cellDim = new(Math.Min(width, Height) / Math.Max(_gridBoard.ColumnDefinitions.Count, _gridBoard.RowDefinitions.Count));
+        _currentCellSize = Math.Min(width, Height) / Math.Max(_gridBoard.ColumnDefinitions.Count, _gridBoard.RowDefinitions.Count);
+
+        GridLength cellDim = new(_currentCellSize);
         foreach (RowDefinition row in _gridBoard.RowDefinitions)
         {
             row.Height = cellDim;
@@ -110,12 +111,14 @@ public partial class MainWindow : Window
         Dictionary<Coordinate, Piece?> board = _gameService.GetBoardDictionary();
         foreach (KeyValuePair<Coordinate, Piece?> element in board.Where(b => b.Value != null))
         {
+            var piece = element.Value!;
             Button button = new()
             {
-                Content = element.Value!.Type.ToString(),
-                Background = element.Value!.Color == PieceColor.White ? _brushLightPieces : _brushDarkPieces,
-                Foreground = element.Value!.Color == PieceColor.White ? _brushDarkPieces : _brushLightPieces,
-                BorderBrush = element.Value!.Color == PieceColor.White ? _brushDarkPieces : _brushLightPieces,
+                Content = GetPieceSymbol(piece.Type, piece.Color),
+                FontSize = _currentCellSize * 0.8,
+                Foreground = piece.Color == PieceColor.White ? Brushes.Cornsilk : Brushes.Black,
+                Background = Brushes.Transparent,
+                BorderBrush = Brushes.Transparent,
                 HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
                 VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
             };
@@ -170,5 +173,24 @@ public partial class MainWindow : Window
     {
         _gameService.ResetGame();
         InitializeGameGrid();
+    }
+    private static string GetPieceSymbol(PieceType type, PieceColor color)
+    {
+        return (type, color) switch
+        {
+            (PieceType.King, PieceColor.White) => "♔",
+            (PieceType.Queen, PieceColor.White) => "♕",
+            (PieceType.Rook, PieceColor.White) => "♖",
+            (PieceType.Bishop, PieceColor.White) => "♗",
+            (PieceType.Knight, PieceColor.White) => "♘",
+            (PieceType.Pawn, PieceColor.White) => "♙",
+            (PieceType.King, PieceColor.Black) => "♚",
+            (PieceType.Queen, PieceColor.Black) => "♛",
+            (PieceType.Rook, PieceColor.Black) => "♜",
+            (PieceType.Bishop, PieceColor.Black) => "♝",
+            (PieceType.Knight, PieceColor.Black) => "♞",
+            (PieceType.Pawn, PieceColor.Black) => "♙",
+            _ => ""
+        };
     }
 }
